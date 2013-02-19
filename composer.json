@@ -1,0 +1,13 @@
+{
+    "require": {
+        "php": ">=5.3",
+
+        "pimple/pimple": "1.*"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    }
+}
