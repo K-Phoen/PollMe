@@ -2,14 +2,15 @@
 
 require_once 'autoload.php';
 
+use Rock\Http\Kernel;
 use Rock\Http\Request;
-use Rock\Http\Response;
+use Rock\Http\Controller\ControllerResolver;
 
 
 class ApplicationKernel
 {
     protected $booted = false;
-    protected $services_container = null;
+    protected $container = null;
 
 
     public function boot()
@@ -18,7 +19,7 @@ class ApplicationKernel
             return;
         }
 
-        $this->buildServicesContainer();
+        $this->buildContainer();
 
         $this->booted = true;
     }
@@ -26,22 +27,28 @@ class ApplicationKernel
     public function handle(Request $request)
     {
         $this->boot();
-        // return $this->getHttpKernel()->handle($request);
-        return new Response('response');
+        return $this->getHttpKernel()->handle($request);
     }
 
-    public function getServicesContainer()
+    public function getContainer()
     {
-        return $this->services_container;
+        return $this->container;
     }
 
-    protected function buildServicesContainer()
+    protected function buildContainer()
     {
-        $this->services_container = new Pimple();
+        $this->container = new Pimple();
+
+        $this->container['http.controller.resolver'] = $this->container->share(function($c) {
+            return new ControllerResolver();
+        });
+        $this->container['http.kernel'] = $this->container->share(function($c) {
+            return new Kernel($c['http.controller.resolver']);
+        });
     }
 
     protected function getHttpKernel()
     {
-        return $this->services_container['http.kernel'];
+        return $this->container['http.kernel'];
     }
 }
