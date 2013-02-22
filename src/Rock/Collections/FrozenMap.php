@@ -3,23 +3,10 @@
 namespace Rock\Collections;
 
 
-class FrozenMap
+class FrozenMap extends Map
 {
-    protected $map;
-
-
-    public function __construct(array $map)
+    public function set($key, $value)
     {
-        $this->map = $map;
-    }
-
-    public function get($key, $default = null)
-    {
-        return $this->has($key) ? $this->map[$key] : $default;
-    }
-
-    public function has($key)
-    {
-        return array_key_exists($key, $this->map);
+        throw new \BadMethodCallException('Method not available on a frozen map');
     }
 }

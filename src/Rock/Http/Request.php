@@ -3,6 +3,7 @@
 namespace Rock\Http;
 
 use Rock\Collections\FrozenMap;
+use Rock\Collections\Map;
 
 
 class Request
@@ -25,7 +26,7 @@ class Request
     {
         $this->request = new FrozenMap($request);
         $this->query = new FrozenMap($query);
-        $this->attributes = new FrozenMap($attributes);
+        $this->attributes = new Map($attributes);
         $this->cookies = new FrozenMap($cookies);
         $this->files = new FrozenMap($files);
         $this->server = new FrozenMap($server);
