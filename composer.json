@@ -7,7 +7,9 @@
         "symfony/event-dispatcher": "2.1.*",
 
         "kunststube/router": "dev-master",
-        "symfony/yaml": "2.1.*"
+        "symfony/yaml": "2.1.*",
+
+        "twig/twig": "1.*"
     },
 
     "autoload": {

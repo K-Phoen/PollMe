@@ -5,6 +5,8 @@ namespace Rock\Core\DependencyInjection;
 use Kunststube\Router\Router;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
+use Rock\Core\Listener\ControllerContainerListener;
+
 use Rock\Http\Controller\ControllerResolver;
 use Rock\Http\Kernel;
 
@@ -50,6 +52,16 @@ class ApplicationContainer extends \Pimple
         $this['http.kernel'] = $this->share(function($c) {
             return new Kernel($c['event.dispatcher'], $c['http.controller.resolver']);
         });
+
+        // templating
+        $this['templating.loader'] = function($c) {
+            return new Twig_Loader_Filesystem('/path/to/templates');
+        };
+        $this['templating'] = $this->share(function($c) {
+            $twig = new Twig_Environment($c['templating.loader'], array(
+                'cache' => $c['cache.directory'] . '/cache',
+            ));
+        });
     }
 
     private function registerListeners()
@@ -62,6 +74,9 @@ class ApplicationContainer extends \Pimple
         };
         $this['routing.request_listener'] = function($c) {
             return new RequestListener($c['routing.router']);
+        };
+        $this['controller.controller_container_listener'] = function($c) {
+            return new ControllerContainerListener($c);
         };
     }
 }

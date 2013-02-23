@@ -14,6 +14,7 @@ abstract class ApplicationKernel
     protected $container = null;
 
 
+    public abstract function getCacheDir();
     public abstract function getConfigDir();
 
 
@@ -51,7 +52,8 @@ abstract class ApplicationKernel
     protected function getContainerParameters()
     {
         return array(
-            'config.directory' => $this->getConfigDir(),
+            'cache.directory'   => $this->getCacheDir(),
+            'config.directory'  => $this->getConfigDir(),
         );
     }
 
@@ -60,6 +62,7 @@ abstract class ApplicationKernel
         $this->container['event.dispatcher']->addSubscriber($this->container['routing.request_listener']);
         $this->container['event.dispatcher']->addSubscriber($this->container['routing.boot_listener']);
         $this->container['event.dispatcher']->addSubscriber($this->container['session.request_listener']);
+        $this->container['event.dispatcher']->addSubscriber($this->container['controller.controller_container_listener']);
     }
 
     protected function getHttpKernel()

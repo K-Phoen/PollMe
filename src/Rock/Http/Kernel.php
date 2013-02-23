@@ -6,6 +6,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 use Rock\Http\Response;
 use Rock\Http\Controller\ControllerResolverInterface;
+use Rock\Http\Event\FilterControllerEvent;
 use Rock\Http\Event\GetResponseEvent;
 use Rock\Http\Exception\NotFoundHttpException;
 
@@ -41,6 +42,10 @@ class Kernel implements KernelInterface
         if ($controller === null) {
            throw new NotFoundHttpException(sprintf('Unable to find the controller for request "%s".', $request->getPathInfo()));
         }
+
+        $event = new FilterControllerEvent($this, $controller, $request);
+        $this->dispatcher->dispatch(KernelEvents::CONTROLLER, $event);
+        $controller = $event->getController();
 
         // controller arguments
         $arguments = $this->resolver->getArguments($request, $controller);
