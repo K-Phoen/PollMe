@@ -1,9 +1,9 @@
 hello:
   pattern:    /hello
-  controller: FooController::indexAction
+  controller: \PollMe\Controller\FooController::indexAction
   defaults:
       name:   you
 
 hello_name:
   pattern:    /hello/:name
-  controller: FooController::indexAction
+  controller: \PollMe\Controller\FooController::indexAction
