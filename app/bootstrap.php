@@ -18,9 +18,9 @@ use Rock\Session\Session;
 use Rock\Http\Response;
 class FooController
 {
-    public function indexAction()
+    public function indexAction($joe)
     {
-        return new Response('Owi !');
+        return new Response('Owi ! ' . $joe);
     }
 }
 
@@ -72,7 +72,8 @@ class ApplicationKernel
         };
         $this->container['routing.router'] = function($c) {
             $router = new Router();
-            $router->add('/frontend.php', array('controller' => 'FooController::indexAction'));
+            $router->add('/frontend.php', array('controller' => 'FooController::indexAction', 'joe' => 42));
+            $router->add('/frontend.php/:joe', array('controller' => 'FooController::indexAction'));
             return $router;
         };
 

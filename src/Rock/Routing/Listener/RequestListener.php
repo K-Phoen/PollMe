@@ -33,6 +33,10 @@ class RequestListener implements EventSubscriberInterface
 
         $this->router->defaultCallback(function(Route $route) use ($request) {
             $request->attributes->set('_controller', $route->dispatchValue('controller'));
+
+            foreach ($route->dispatchValues() as $key => $value) {
+                $request->attributes->set($key, $value);
+            }
         });
 
         if ($request->attributes->has('_controller')) {
