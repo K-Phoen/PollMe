@@ -5,6 +5,8 @@ namespace Rock\Http;
 use Rock\Collections\FrozenMap;
 use Rock\Collections\Map;
 
+use Rock\Session\SessionInterface;
+
 
 class Request
 {
@@ -14,6 +16,8 @@ class Request
     public $cookies;
     public $files;
     public $server;
+
+    protected $session;
     protected $content;
 
 
@@ -64,5 +68,20 @@ class Request
         }
 
         return $requestUri;
+    }
+
+    public function getSession()
+    {
+        return $this->session;
+    }
+
+    public function setSession(SessionInterface $session)
+    {
+        return $this->session = $session;
+    }
+
+    public function hasSession()
+    {
+        return $this->session !== null;
     }
 }

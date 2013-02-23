@@ -10,6 +10,9 @@ use Rock\Http\Request;
 use Rock\Http\Controller\ControllerResolver;
 use Rock\Routing\Listener\RequestListener;
 
+use Rock\Session\Listener\RequestSessionListener;
+use Rock\Session\Session;
+
 
 
 use Rock\Http\Response;
@@ -55,8 +58,14 @@ class ApplicationKernel
     {
         $this->container = new Pimple();
 
+        $this->container['session'] = function($c) {
+            return new Session();
+        };
         $this->container['http.controller.resolver'] = function($c) {
             return new ControllerResolver();
+        };
+        $this->container['session.request_listener'] = function($c) {
+            return new RequestSessionListener($c);
         };
         $this->container['routing.request_listener'] = function($c) {
             return new RequestListener($c['routing.router']);
@@ -78,6 +87,7 @@ class ApplicationKernel
     protected function registerEvents()
     {
         $this->container['event.dispatcher']->addSubscriber($this->container['routing.request_listener']);
+        $this->container['event.dispatcher']->addSubscriber($this->container['session.request_listener']);
     }
 
     protected function getHttpKernel()
