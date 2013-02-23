@@ -1,0 +1,9 @@
+hello:
+  pattern:    /hello
+  controller: FooController::indexAction
+  defaults:
+      name:   you
+
+hello_name:
+  pattern:    /hello/:name
+  controller: FooController::indexAction
