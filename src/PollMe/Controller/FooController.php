@@ -10,6 +10,9 @@ class FooController extends Controller
 {
     public function indexAction($name)
     {
-        return new Response('Hello ' . $name . '!');
+        $templating = $this->container['templating'];
+        return new Response($templating->render('hello.html.twig', array(
+            'name' => $name,
+        )));
     }
 }

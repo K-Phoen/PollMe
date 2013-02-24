@@ -52,8 +52,9 @@ abstract class ApplicationKernel
     protected function getContainerParameters()
     {
         return array(
-            'cache.directory'   => $this->getCacheDir(),
-            'config.directory'  => $this->getConfigDir(),
+            'cache.directory'     => $this->getCacheDir(),
+            'templates.directory' => $this->getTemplatesDir(),
+            'config.directory'    => $this->getConfigDir(),
         );
     }
 

@@ -57,11 +57,11 @@ class ApplicationContainer extends \Pimple
 
         // templating
         $this['templating.loader'] = function($c) {
-            return new Twig_Loader_Filesystem('/path/to/templates');
+            return new \Twig_Loader_Filesystem($c['templates.directory']);
         };
         $this['templating'] = $this->share(function($c) {
-            $twig = new Twig_Environment($c['templating.loader'], array(
-                'cache' => $c['cache.directory'] . '/cache',
+            return new \Twig_Environment($c['templating.loader'], array(
+                'cache' => $c['cache.directory'] . '/twig',
             ));
         });
 
