@@ -6,8 +6,10 @@ use Kunststube\Router\Router;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 use Rock\Core\Listener\ControllerContainerListener;
+use Rock\Core\Listener\ExceptionListener;
 
 use Rock\Http\Controller\ControllerResolver;
+use Rock\Http\Controller\ErrorController;
 use Rock\Http\Kernel;
 
 use Rock\Routing\Listener\RequestListener;
@@ -62,10 +64,18 @@ class ApplicationContainer extends \Pimple
                 'cache' => $c['cache.directory'] . '/cache',
             ));
         });
+
+        // error management
+        $this['error_controller'] = function($c) {
+            return array(new ErrorController(), 'handleAction');
+        };
     }
 
     private function registerListeners()
     {
+        $this['controller.exception_listener'] = function($c) {
+            return new ExceptionListener($c['error_controller']);
+        };
         $this['session.request_listener'] = function($c) {
             return new RequestSessionListener($c);
         };

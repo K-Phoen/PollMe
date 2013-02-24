@@ -12,6 +12,13 @@
         "twig/twig": "1.*"
     },
 
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@github.com:K-Phoen/Kunststube-Router.git"
+        }
+    ],
+
     "autoload": {
         "psr-0": {
             "": "src/"

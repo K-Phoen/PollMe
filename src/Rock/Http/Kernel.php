@@ -8,6 +8,9 @@ use Rock\Http\Response;
 use Rock\Http\Controller\ControllerResolverInterface;
 use Rock\Http\Event\FilterControllerEvent;
 use Rock\Http\Event\GetResponseEvent;
+use Rock\Http\Event\GetResponseForExceptionEvent;
+
+use Rock\Http\Exception\HttpExceptionInterface;
 use Rock\Http\Exception\NotFoundHttpException;
 
 
@@ -24,6 +27,15 @@ class Kernel implements KernelInterface
     }
 
     public function handle(Request $request)
+    {
+        try {
+            return $this->rawHandle($request);
+        } catch (\Exception $e) {
+            return $this->handleException($e, $request);
+        }
+    }
+
+    protected function rawHandle(Request $request)
     {
         // at this point, we have a "raw" request. We don't know how to handle
         // it, so we trigger with the hope that someone will help us by
@@ -55,6 +67,35 @@ class Kernel implements KernelInterface
 
         if (!$response instanceof Response) {
             throw new \LogicException(sprintf('The controller must return a Response instance (got %s).', get_class($response)));
+        }
+
+        return $response;
+    }
+
+    protected function handleException(\Exception $e, $request)
+    {
+        $event = new GetResponseForExceptionEvent($this, $request, $e);
+        $this->dispatcher->dispatch(KernelEvents::EXCEPTION, $event);
+
+        // a listener might have replaced the exception
+        $e = $event->getException();
+
+        if (!$event->hasResponse()) {
+            throw $e;
+        }
+
+        $response = $event->getResponse();
+
+        // the developer asked for a specific status code
+        if (!$response->isRedirection()) {
+            // ensure that we actually have an error response
+            if ($e instanceof HttpExceptionInterface) {
+                // keep the HTTP status code and headers
+                $response->setStatusCode($e->getStatusCode());
+                $response->headers->add($e->getHeaders());
+            } else {
+                $response->setStatusCode(500);
+            }
         }
 
         return $response;

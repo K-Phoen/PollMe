@@ -9,4 +9,9 @@ class FrozenMap extends Map
     {
         throw new \BadMethodCallException('Method not available on a frozen map');
     }
+
+    public function add(array $values)
+    {
+        throw new \BadMethodCallException('Method not available on a frozen map');
+    }
 }

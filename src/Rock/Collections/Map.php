@@ -8,7 +8,7 @@ class Map
     protected $map;
 
 
-    public function __construct(array $map)
+    public function __construct(array $map = array())
     {
         $this->map = $map;
     }
@@ -26,5 +26,17 @@ class Map
     public function has($key)
     {
         return array_key_exists($key, $this->map);
+    }
+
+    public function all()
+    {
+        return $this->map;
+    }
+
+    public function add(array $values)
+    {
+        foreach ($values as $key => $value) {
+            $this->set($key, $value);
+        }
     }
 }

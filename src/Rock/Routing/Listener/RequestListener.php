@@ -2,6 +2,7 @@
 
 namespace Rock\Routing\Listener;
 
+use Kunststube\Router\NotFoundException;
 use Kunststube\Router\Route;
 use Kunststube\Router\Router;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -46,7 +47,7 @@ class RequestListener implements EventSubscriberInterface
 
         try {
             $this->router->routeMethodFromString($request->getMethod(), $request->getRequestUri());
-        } catch (\RuntimeException $e) {
+        } catch (NotFoundException $e) {
             // no matching route found
         }
     }
