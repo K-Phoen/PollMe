@@ -1,0 +1,17 @@
+{% if true %}
+<form class="navbar-form pull-right" method="post" action="" >
+  <a class="btn btn-danger" href="">Inscription</a>
+  <input class="span2" placeholder="Pseudo" name="nickname" type="text" />
+  <input class="span2" placeholder="Mot de passe" name="password"	type="password" />
+  <input class="btn" name="connexionConnexion" type="submit" value="Connexion" />
+</form>
+{% else %}
+<form class="navbar-form pull-right">
+  <a class="btn btn-success" href="">Nouveau sondage</a>
+  <a class="btn" href="">Mes sondages</a>
+  <a class="btn" href="">Changer de mot de passe</a>
+
+  <a href="" class="btn btn-danger" >Déconnexion</a>
+  <span class="btn disabled">Toto</span>
+</form>
+{% endif %}

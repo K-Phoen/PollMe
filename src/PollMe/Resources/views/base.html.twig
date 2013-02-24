@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Sondages{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      {% include "navbar/search.html.twig" %}
+      {% include "navbar/user_actions.html.twig" %}
+    </div>
+  </div>
+</div>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>

@@ -62,6 +62,7 @@ class ApplicationContainer extends \Pimple
         $this['templating'] = $this->share(function($c) {
             return new \Twig_Environment($c['templating.loader'], array(
                 'cache' => $c['cache.directory'] . '/twig',
+                'debug' => true, // fixme: hardcoded value
             ));
         });
 
