@@ -1,6 +1,6 @@
 <?php
 
-namespace Rock\Http\Controller;
+namespace Rock\Core\Controller;
 
 use Rock\Http\Request;
 use Rock\Http\Response;

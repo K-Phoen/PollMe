@@ -5,11 +5,11 @@ namespace Rock\Core\DependencyInjection;
 use Kunststube\Router\Router;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
+use Rock\Core\Controller\ErrorController;
 use Rock\Core\Listener\ControllerContainerListener;
 use Rock\Core\Listener\ExceptionListener;
 
 use Rock\Http\Controller\ControllerResolver;
-use Rock\Http\Controller\ErrorController;
 use Rock\Http\Kernel;
 
 use Rock\Routing\Listener\RequestListener;
