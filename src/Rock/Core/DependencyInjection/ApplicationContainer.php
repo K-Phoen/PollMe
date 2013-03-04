@@ -7,6 +7,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 
 use Rock\Core\Controller\ErrorController;
 use Rock\Core\Listener\ControllerContainerListener;
+use Rock\Core\Listener\ControllerRequestListener;
 use Rock\Core\Listener\ExceptionListener;
 
 use Rock\Http\Controller\ControllerResolver;
@@ -36,7 +37,7 @@ class ApplicationContainer extends \Pimple
         }
     }
 
-    private function registerServices()
+    protected function registerServices()
     {
         $this['session'] = function($c) {
             return new Session();
@@ -72,7 +73,7 @@ class ApplicationContainer extends \Pimple
         };
     }
 
-    private function registerListeners()
+    protected function registerListeners()
     {
         $this['controller.exception_listener'] = function($c) {
             return new ExceptionListener($c['error_controller']);
@@ -88,6 +89,9 @@ class ApplicationContainer extends \Pimple
         };
         $this['controller.controller_container_listener'] = function($c) {
             return new ControllerContainerListener($c);
+        };
+        $this['controller.controller_request_listener'] = function($c) {
+            return new ControllerRequestListener();
         };
     }
 }

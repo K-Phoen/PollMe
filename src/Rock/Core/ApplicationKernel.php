@@ -64,6 +64,7 @@ abstract class ApplicationKernel
         $this->container['event.dispatcher']->addSubscriber($this->container['routing.boot_listener']);
         $this->container['event.dispatcher']->addSubscriber($this->container['session.request_listener']);
         $this->container['event.dispatcher']->addSubscriber($this->container['controller.controller_container_listener']);
+        $this->container['event.dispatcher']->addSubscriber($this->container['controller.controller_request_listener']);
         $this->container['event.dispatcher']->addSubscriber($this->container['controller.exception_listener']);
     }
 

@@ -1,4 +1,4 @@
-{% if true %}
+{% if not request.session.get('_user') %}
 <form class="navbar-form pull-right" method="post" action="">
   <a class="btn btn-danger" href="/register">Inscription</a>
   <input class="span2" placeholder="Pseudo" name="nickname" type="text" />

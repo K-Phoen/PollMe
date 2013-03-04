@@ -5,9 +5,16 @@ namespace Rock\Core\Controller;
 use Rock\Http\Response;
 
 
-abstract class Controller implements ContainerAware
+abstract class Controller implements ContainerAware, RequestAware
 {
     protected $container;
+    protected $request;
+
+
+    public function setRequest($request)
+    {
+        $this->request = $request;
+    }
 
     public function setContainer($container)
     {
@@ -17,6 +24,10 @@ abstract class Controller implements ContainerAware
     public function render($template, array $parameters = array())
     {
         $templating = $this->container['templating'];
+        $parameters = array_merge(array(
+            'request' => $this->request,
+        ), $parameters);
+
         return new Response($templating->render($template, $parameters));
     }
 }

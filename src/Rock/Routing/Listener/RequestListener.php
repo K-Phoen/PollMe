@@ -32,6 +32,11 @@ class RequestListener implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
+        if ($request->attributes->has('_controller')) {
+            // routing is already done
+            return;
+        }
+
         $this->router->defaultCallback(function(Route $route) use ($request) {
             $request->attributes->set('_controller', $route->dispatchValue('controller'));
 
@@ -39,11 +44,6 @@ class RequestListener implements EventSubscriberInterface
                 $request->attributes->set($key, $value);
             }
         });
-
-        if ($request->attributes->has('_controller')) {
-            // routing is already done
-            return;
-        }
 
         try {
             $this->router->routeMethodFromString($request->getMethod(), $request->getRequestUri());
