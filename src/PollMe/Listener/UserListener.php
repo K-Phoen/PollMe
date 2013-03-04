@@ -36,8 +36,8 @@ class UserListener implements EventSubscriberInterface
             return;
         }
 
-        if ($id = $request->getSession()->get('id')) {
-            $user = $this->repository->findById($request->getSession()->get('id'));
+        if ($id = $request->getSession()->get('user_id')) {
+            $user = $this->repository->findById($request->getSession()->get('user_id'));
             if ($user !== null) {
                 $request->attributes->set('_user', $user);
             }

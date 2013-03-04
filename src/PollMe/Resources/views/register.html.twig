@@ -7,22 +7,34 @@
   </div>
 
   <div class="form-horizontal modal-body">
+    {% include "flashes.html.twig" %}
+
+    {% if errors is defined %}
+    <div class="alert alert-error">
+        <ul>
+        {% for error in errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
     <div class="control-group">
       <label class="control-label" for="signUpLogin">Pseudo</label>
       <div class="controls">
-        <input type="text" name="signUpLogin" placeholder="Pseudo">
+        <input type="text" name="signUpLogin" placeholder="Pseudo" value="{{ request.request.get('signUpLogin') }}" />
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="signUpPassword">Mot de passe</label>
       <div class="controls">
-        <input type="password" name="signUpPassword" placeholder="Mot de passe">
+        <input type="password" name="signUpPassword" placeholder="Mot de passe" />
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="signUpPassword2">Confirmation</label>
       <div class="controls">
-        <input type="password" name="signUpPassword2" placeholder="Confirmation">
+        <input type="password" name="signUpPassword2" placeholder="Confirmation" />
       </div>
     </div>
   </div>

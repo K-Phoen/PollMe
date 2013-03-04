@@ -29,4 +29,41 @@ class User
             $this->password = $data['password'];
         }
     }
+
+    public function setId($id)
+    {
+        if ($this->id !== null) {
+            throw new \RuntimeException('This user already has an ID');
+        }
+
+        $this->id = $id;
+        return $this;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setNickname($nickname)
+    {
+        $this->nickname = $nickname;
+        return $this;
+    }
+
+    public function getNickname()
+    {
+        return $this->nickname;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = sha1($password);
+        return $this;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
 }
