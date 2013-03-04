@@ -22,6 +22,17 @@ class UserRepository
         return (int) $stmt->fetchColumn(0) === 0;
     }
 
+    public function findByCredentials($nickname, $password)
+    {
+        $sql = 'SELECT id, nickname, password FROM users WHERE nickname = ? AND password = ?';
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->execute(array($nickname, sha1($password)));
+        $row = $stmt->fetch(\Pdo::FETCH_ASSOC);
+
+        return $row === false ? null : $this->hydrateUser($row);
+    }
+
     public function findById($id)
     {
         $sql = 'SELECT id, nickname, password FROM users WHERE id = ?';

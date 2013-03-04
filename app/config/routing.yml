@@ -1,8 +1,15 @@
 hello:
   pattern:    /
   controller: \PollMe\Controller\FooController::indexAction
-  defaults:
-      name:   you
+
+login:
+  pattern:    /login
+  controller: \PollMe\Controller\LoginController::loginAction
+  method:     POST
+
+logout:
+  pattern:    /logout
+  controller: \PollMe\Controller\LoginController::logoutAction
 
 register:
   pattern:    /register
