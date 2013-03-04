@@ -7,3 +7,12 @@ hello:
 hello_name:
   pattern:    /hello/:name
   controller: \PollMe\Controller\FooController::indexAction
+
+register:
+  pattern:    /register
+  controller: \PollMe\Controller\RegistrationController::registerAction
+
+submit_register:
+  pattern:    /register
+  controller: \PollMe\Controller\RegistrationController::submitRegisterAction
+  method:     POST

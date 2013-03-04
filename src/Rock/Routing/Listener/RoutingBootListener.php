@@ -31,8 +31,16 @@ class RoutingBootListener implements EventSubscriberInterface
     public function onApplicationBoot()
     {
         foreach (Yaml::parse($this->configDir . '/routing.yml') as $route_name => $route) {
-            $route = array_merge(array('defaults' => array()), $route);
-            $this->router->add($route['pattern'], array_merge(array('controller' => $route['controller']), $route['defaults']));
+            $route = array_merge(array(
+                'defaults' => array(),
+                'method'   => 'GET',
+            ), $route);
+
+            $method = 'add' . ucfirst(strtolower($route['method']));
+            if (!method_exists($this->router, $method)) {
+                throw new \InvalidArgumentException('Unknown method '.$route['method']);
+            }
+            $this->router->{$method}($route['pattern'], array_merge(array('controller' => $route['controller']), $route['defaults']));
         }
     }
 }
