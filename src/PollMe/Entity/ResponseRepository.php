@@ -13,12 +13,12 @@ class ResponseRepository
         $this->pdo = $pdo;
     }
 
-    public function findByByIdForSurveyId($id, $survey_id)
+    public function findById($id)
     {
-        $sql = 'SELECT id, survey_id, title, count FROM responses WHERE survey_id = ? AND id = ?';
+        $sql = 'SELECT id, survey_id, title, count FROM responses WHERE id = ?';
         $stmt = $this->pdo->prepare($sql);
 
-        $stmt->execute(array($survey_id, $id));
+        $stmt->execute(array($id));
 
         $row = $stmt->fetch(\Pdo::FETCH_ASSOC);
         return $row === false ? null : $this->hydrateResponse($row);

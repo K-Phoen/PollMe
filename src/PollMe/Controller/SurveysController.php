@@ -55,7 +55,7 @@ class SurveysController extends Controller
     public function voteAction(Request $request, $survey_id)
     {
         $response_repository = $this->container['repository.response'];
-        $response = $response_repository->findByByIdForSurveyId((int) $request->request->get('responseId'), (int) $survey_id);
+        $response = $response_repository->findById((int) $request->request->get('responseId'));
 
         if ($response === null) {
             throw $this->createNotFoundException('Réponse inconnue');
