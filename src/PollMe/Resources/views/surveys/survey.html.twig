@@ -1,0 +1,19 @@
+<li class="media well">
+    <div class="media-body">
+        <h4 class="media-heading">{{ survey.question }}</h4>
+
+        {% for response in survey.responses %}
+        <div class="fluid-row">
+            <div class="span2">{{ response.title }}</div>
+            <div class="span2 progress progress-striped active">
+                <div class="bar" style="width: {{ response.percentage }}%"></div>
+            </div>
+            <span class="span1">({{ response.percentage }}%)</span>
+            <form class="span1" method="post" action="?action=Vote">
+                <input type="hidden" name="responseId" value="1">
+                <input type="submit" style="margin-left:5px" class="span1 btn btn-small btn-danger" value="Voter">
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</li>

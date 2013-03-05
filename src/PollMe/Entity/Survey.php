@@ -93,4 +93,22 @@ class Survey
     {
         return $this->responses;
     }
+
+    public function computePercentages()
+    {
+        $nb_votes = 0;
+        foreach ($this->getResponses() as $response) {
+            $nb_votes += $response->getCount();
+        }
+
+        if ($nb_votes === 0) {
+            return $this;
+        }
+
+        foreach ($this->getResponses() as $response) {
+            $response->setPercentage(100 * $response->getCount() / $nb_votes);
+        }
+
+        return $this;
+    }
 }

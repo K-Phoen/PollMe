@@ -26,6 +26,23 @@ class SurveyRepository
         return $row === false ? null : $this->hydrateSurvey($row);
     }
 
+    public function findByOwnerId($id)
+    {
+        $sql = 'SELECT id, owner_id, question FROM surveys WHERE owner_id = ?';
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->execute(array($id));
+
+        $surveys = array();
+        foreach ($stmt->fetchAll(\Pdo::FETCH_ASSOC) as $row) {
+            $survey = $this->hydrateSurvey($row);
+            $survey->setResponses($this->response_repository->findBySurveyId($survey->getId()));
+
+            $surveys[] = $survey;
+        }
+        return $surveys;
+    }
+
     public function persist(Survey $survey)
     {
         if ($survey->getId() === null) {

@@ -28,3 +28,7 @@ surveys_create:
   pattern:    /surveys/new
   controller: \PollMe\Controller\SurveysController::createAction
   method:     POST
+
+surveys_list_mine:
+  pattern:    /surveys/mine
+  controller: \PollMe\Controller\SurveysController::listMineAction

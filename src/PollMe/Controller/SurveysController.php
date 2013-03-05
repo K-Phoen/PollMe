@@ -16,6 +16,20 @@ class SurveysController extends Controller
         return $this->render('surveys/new.html.twig');
     }
 
+    public function listMineAction(Request $request)
+    {
+        $survey_repository = $this->container['repository.survey'];
+        $surveys = $survey_repository->findByOwnerId($this->getUser()->getId());
+
+        foreach ($surveys as $survey) {
+            $survey->computePercentages();
+        }
+
+        return $this->render('surveys/list_mine.html.twig', array(
+            'surveys' => $surveys,
+        ));
+    }
+
     public function createAction(Request $request)
     {
         $errors = array();
@@ -38,6 +52,10 @@ class SurveysController extends Controller
             } catch (\Exception $e) {
                 $errors[] = $e->getMessage();
             }
+        }
+
+        if (count($survey->getResponses()) === 0) {
+            $errors[] = 'Un sondage sans question n\'est pas très utile ...';
         }
 
         if (count($errors) === 0) {

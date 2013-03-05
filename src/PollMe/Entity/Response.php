@@ -9,6 +9,7 @@ class Response
     protected $survey_id;
     protected $title;
     protected $count = 0;
+    protected $percentage = 0;
 
 
     public function __construct(array $data = array())
@@ -81,5 +82,16 @@ class Response
     public function getCount()
     {
         return $this->count;
+    }
+
+    public function setPercentage($percentage)
+    {
+        $this->percentage = (int) $percentage;
+        return $this;
+    }
+
+    public function getPercentage()
+    {
+        return $this->percentage;
     }
 }
