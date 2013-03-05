@@ -74,6 +74,10 @@ class SurveysController extends Controller
             $errors[] = 'Un sondage sans question n\'est pas très utile ...';
         }
 
+        if (count($survey->getResponses()) < 2) {
+            $errors[] = 'Il faut saisir au moins deux réponses.';
+        }
+
         if (count($errors) === 0) {
             $survey_repository = $this->container['repository.survey'];
             $survey_repository->persist($survey);
