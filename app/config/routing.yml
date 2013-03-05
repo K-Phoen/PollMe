@@ -33,6 +33,11 @@ surveys_list_mine:
   pattern:    /surveys/mine
   controller: \PollMe\Controller\SurveysController::listMineAction
 
+surveys_search:
+  pattern:    /surveys/search
+  controller: \PollMe\Controller\SurveysController::searchAction
+  method:     POST
+
 survey_vote:
   pattern:    /surveys/:survey_id/vote
   controller: \PollMe\Controller\SurveysController::voteAction

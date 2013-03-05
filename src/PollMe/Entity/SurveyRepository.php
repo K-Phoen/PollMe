@@ -26,6 +26,23 @@ class SurveyRepository
         return $row === false ? null : $this->hydrateSurvey($row);
     }
 
+    public function findBySearch($search)
+    {
+        $sql = 'SELECT id, owner_id, question FROM surveys WHERE question LIKE ?';
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->execute(array('%'.$search.'%'));
+
+        $surveys = array();
+        foreach ($stmt->fetchAll(\Pdo::FETCH_ASSOC) as $row) {
+            $survey = $this->hydrateSurvey($row);
+            $survey->setResponses($this->response_repository->findBySurveyId($survey->getId()));
+
+            $surveys[] = $survey;
+        }
+        return $surveys;
+    }
+
     public function findByOwnerId($id)
     {
         $sql = 'SELECT id, owner_id, question FROM surveys WHERE owner_id = ?';

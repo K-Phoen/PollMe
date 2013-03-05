@@ -30,6 +30,28 @@ class SurveysController extends Controller
         ));
     }
 
+    public function searchAction(Request $request)
+    {
+        $search = $request->request->get('keyword');
+
+        if (empty($search)) {
+            $request->getSession()->getFlashBag()->add('error', 'Une recherche vide ? Mais pourquoi ?!');
+            $this->redirect('/');
+        }
+
+        $survey_repository = $this->container['repository.survey'];
+        $surveys = $survey_repository->findBySearch($search);
+
+        foreach ($surveys as $survey) {
+            $survey->computePercentages();
+        }
+
+        return $this->render('surveys/search.html.twig', array(
+            'surveys' => $surveys,
+            'search'  => $search,
+        ));
+    }
+
     public function voteAction(Request $request, $survey_id)
     {
         $response_repository = $this->container['repository.response'];
