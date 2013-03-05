@@ -19,3 +19,12 @@ submit_register:
   pattern:    /register
   controller: \PollMe\Controller\RegistrationController::submitRegisterAction
   method:     POST
+
+surveys_new:
+  pattern:    /surveys/new
+  controller: \PollMe\Controller\SurveysController::newAction
+
+surveys_create:
+  pattern:    /surveys/new
+  controller: \PollMe\Controller\SurveysController::createAction
+  method:     POST

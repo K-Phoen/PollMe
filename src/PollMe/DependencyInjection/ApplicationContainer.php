@@ -7,6 +7,8 @@ use Rock\Core\DependencyInjection\ApplicationContainer as BaseContainer;
 use PollMe\Database\DB;
 use PollMe\Listener\CreateDatabaseListener;
 use PollMe\Listener\UserListener;
+use PollMe\Entity\ResponseRepository;
+use PollMe\Entity\SurveyRepository;
 use PollMe\Entity\UserRepository;
 
 
@@ -30,6 +32,12 @@ class ApplicationContainer extends BaseContainer
 
         $this['repository.user'] = $this->share(function($c) {
             return new UserRepository($c['db.pdo']);
+        });
+        $this['repository.response'] = $this->share(function($c) {
+            return new ResponseRepository($c['db.pdo']);
+        });
+        $this['repository.survey'] = $this->share(function($c) {
+            return new SurveyRepository($c['db.pdo'], $c['repository.response']);
         });
     }
 

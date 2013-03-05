@@ -1,0 +1,49 @@
+{% extends "base.html.twig" %}
+
+{% import _self as utils %}
+
+{% macro response_input(number, value) %}
+<div class="control-group">
+    <label class="control-label" for="responseSurvey{{ number }}">Réponse {{ number }}</label>
+    <div class="controls">
+        <input class="span3" type="text" name="responseSurvey{{ number }}" placeholder="Réponse {{ number }}" value="{{ value }}" />
+    </div>
+</div>
+{% endmacro %}
+
+{% block content %}
+<form method="post" action="/surveys/new" class="modal">
+    <div class="modal-header">
+        <h3>Création d'un sondage</h3>
+    </div>
+
+    <div class="form-horizontal modal-body">
+        {% include "flashes.html.twig" %}
+
+        {% if errors is defined %}
+        <div class="alert alert-error">
+            <ul>
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div class="control-group">
+            <label class="control-label" for="questionSurvey">Question</label>
+            <div class="controls">
+                <input class="span3" type="text" name="questionSurvey" placeholder="Question">
+            </div>
+        </div>
+
+        {% for i in 1..5 %}
+            {{ utils.response_input(i, request.request.get('responseSurvey' ~ i)) }}
+        {% endfor %}
+    </div>
+
+    <div class="modal-footer">
+        <input class="btn btn-danger" type="submit"	value="Poster le sondage" />
+    </div>
+</form>
+{% endblock %}
