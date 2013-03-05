@@ -3,15 +3,14 @@
 namespace PollMe\Entity;
 
 
-class SurveyRepository
+class SurveyRepository extends AbstractRepository
 {
-    protected $pdo;
     protected $response_repository;
 
 
     public function __construct(\Pdo $pdo, ResponseRepository $response_repository)
     {
-        $this->pdo = $pdo;
+        parent::__construct($pdo);
         $this->response_repository = $response_repository;
     }
 
@@ -19,45 +18,27 @@ class SurveyRepository
     {
         $sql = 'SELECT id, owner_id, question FROM surveys WHERE id = ?';
         $stmt = $this->pdo->prepare($sql);
-
         $stmt->execute(array($id));
-        $row = $stmt->fetch(\Pdo::FETCH_ASSOC);
 
-        return $row === false ? null : $this->hydrateSurvey($row);
+        return $this->hydrateSingle($stmt);
     }
 
     public function findBySearch($search)
     {
         $sql = 'SELECT id, owner_id, question FROM surveys WHERE question LIKE ?';
         $stmt = $this->pdo->prepare($sql);
-
         $stmt->execute(array('%'.$search.'%'));
 
-        $surveys = array();
-        foreach ($stmt->fetchAll(\Pdo::FETCH_ASSOC) as $row) {
-            $survey = $this->hydrateSurvey($row);
-            $survey->setResponses($this->response_repository->findBySurveyId($survey->getId()));
-
-            $surveys[] = $survey;
-        }
-        return $surveys;
+        return $this->hydrateList($stmt);
     }
 
     public function findByOwnerId($id)
     {
         $sql = 'SELECT id, owner_id, question FROM surveys WHERE owner_id = ?';
         $stmt = $this->pdo->prepare($sql);
-
         $stmt->execute(array($id));
 
-        $surveys = array();
-        foreach ($stmt->fetchAll(\Pdo::FETCH_ASSOC) as $row) {
-            $survey = $this->hydrateSurvey($row);
-            $survey->setResponses($this->response_repository->findBySurveyId($survey->getId()));
-
-            $surveys[] = $survey;
-        }
-        return $surveys;
+        return $this->hydrateList($stmt);
     }
 
     public function persist(Survey $survey)
@@ -82,8 +63,10 @@ class SurveyRepository
         }
     }
 
-    protected function hydrateSurvey($data)
+    protected function hydrate($data)
     {
-        return new Survey($data);
+        $survey = new Survey($data);
+        $survey->setResponses($this->response_repository->findBySurveyId($survey->getId()));
+        return $survey;
     }
 }
