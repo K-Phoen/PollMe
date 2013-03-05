@@ -9,9 +9,9 @@
                 <div class="bar" style="width: {{ response.percentage }}%"></div>
             </div>
             <span class="span1">({{ response.percentage }}%)</span>
-            <form class="span1" method="post" action="?action=Vote">
-                <input type="hidden" name="responseId" value="1">
-                <input type="submit" style="margin-left:5px" class="span1 btn btn-small btn-danger" value="Voter">
+            <form class="span1" method="post" action="/surveys/{{ survey.id }}/vote">
+                <input type="hidden" name="responseId" value="{{ response.id}}" />
+                <input type="submit" style="margin-left:5px" class="span1 btn btn-small btn-danger" value="Voter" />
             </form>
         </div>
         {% endfor %}

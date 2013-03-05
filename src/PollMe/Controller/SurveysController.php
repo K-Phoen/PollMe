@@ -11,12 +11,12 @@ use PollMe\Entity\Survey;
 
 class SurveysController extends Controller
 {
-    public function newAction(Request $request)
+    public function newAction()
     {
         return $this->render('surveys/new.html.twig');
     }
 
-    public function listMineAction(Request $request)
+    public function listMineAction()
     {
         $survey_repository = $this->container['repository.survey'];
         $surveys = $survey_repository->findByOwnerId($this->getUser()->getId());
@@ -28,6 +28,22 @@ class SurveysController extends Controller
         return $this->render('surveys/list_mine.html.twig', array(
             'surveys' => $surveys,
         ));
+    }
+
+    public function voteAction(Request $request, $survey_id)
+    {
+        $response_repository = $this->container['repository.response'];
+        $response = $response_repository->findByByIdForSurveyId((int) $request->request->get('responseId'), (int) $survey_id);
+
+        if ($response === null) {
+            throw $this->createNotFoundException('Réponse inconnue');
+        }
+
+        $response->setCount($response->getCount() + 1);
+        $response_repository->persist($response);
+
+        $request->getSession()->getFlashBag()->add('info', 'A voté !');
+        $this->redirect('/');
     }
 
     public function createAction(Request $request)

@@ -13,14 +13,14 @@ class ResponseRepository
         $this->pdo = $pdo;
     }
 
-    public function findById($id)
+    public function findByByIdForSurveyId($id, $survey_id)
     {
-        $sql = 'SELECT id, survey_id, title, count FROM responses WHERE id = ?';
+        $sql = 'SELECT id, survey_id, title, count FROM responses WHERE survey_id = ? AND id = ?';
         $stmt = $this->pdo->prepare($sql);
 
-        $stmt->execute(array($id));
-        $row = $stmt->fetch(\Pdo::FETCH_ASSOC);
+        $stmt->execute(array($survey_id, $id));
 
+        $row = $stmt->fetch(\Pdo::FETCH_ASSOC);
         return $row === false ? null : $this->hydrateResponse($row);
     }
 
@@ -54,6 +54,14 @@ class ResponseRepository
 
         $stmt->execute(array($response->getSurveyId(), $response->getTitle(), $response->getCount()));
         $response->setId($this->pdo->lastInsertId());
+    }
+
+    protected function update(response $response)
+    {
+        $sql = 'UPDATE responses SET survey_id = ?, title = ?, count = ? WHERE id = ?';
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->execute(array($response->getSurveyId(), $response->getTitle(), $response->getCount(), $response->getId()));
     }
 
     protected function hydrateResponse($data)
