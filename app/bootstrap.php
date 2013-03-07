@@ -31,10 +31,10 @@ class ApplicationKernel extends BaseApplicationKernel
     protected function getContainerParameters()
     {
         return array_merge(parent::getContainerParameters(), array(
-            'db.host' => 'localhost',
-            'db.name' => 'poll_me',
-            'db.user' => 'poll_me',
-            'db.pass' => 'poll_me',
+            'db.host' => !empty($_SERVER['dbHost']) ? $_SERVER['dbHost'] : 'localhost',
+            'db.name' => !empty($_SERVER['dbBd']) ? $_SERVER['dbBd'] : 'poll_me',
+            'db.user' => !empty($_SERVER['dbPass']) ? $_SERVER['dbPass'] :'poll_me',
+            'db.pass' => !empty($_SERVER['dbLogin']) ? $_SERVER['dbLogin'] : 'poll_me',
         ));
     }
 
