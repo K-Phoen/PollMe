@@ -2,13 +2,12 @@
 
 namespace PollMe\Controller;
 
-use Rock\Core\Controller\Controller;
 use Rock\Http\Request;
 
 use PollMe\Entity\User;
 
 
-class RegistrationController extends Controller
+class RegistrationController extends BaseController
 {
     public function registerAction()
     {

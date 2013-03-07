@@ -2,11 +2,10 @@
 
 namespace PollMe\Controller;
 
-use Rock\Core\Controller\Controller;
 use Rock\Http\Request;
 
 
-class LoginController extends Controller
+class LoginController extends BaseController
 {
     public function loginAction(Request $request)
     {

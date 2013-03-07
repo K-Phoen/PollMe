@@ -2,10 +2,8 @@
 
 namespace PollMe\Controller;
 
-use Rock\Core\Controller\Controller;
 
-
-class FooController extends Controller
+class FooController extends BaseController
 {
     public function indexAction()
     {

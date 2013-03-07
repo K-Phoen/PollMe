@@ -2,22 +2,25 @@
 
 namespace PollMe\Controller;
 
-use Rock\Core\Controller\Controller;
 use Rock\Http\Request;
 
 use PollMe\Entity\Response;
 use PollMe\Entity\Survey;
 
 
-class SurveysController extends Controller
+class SurveysController extends BaseController
 {
     public function newAction()
     {
+        $this->requireUser();
+
         return $this->render('surveys/new.html.twig');
     }
 
     public function listMineAction()
     {
+        $this->requireUser();
+
         $survey_repository = $this->container['repository.survey'];
         $surveys = $survey_repository->findByOwnerId($this->getUser()->getId());
 
@@ -54,6 +57,8 @@ class SurveysController extends Controller
 
     public function voteAction(Request $request, $survey_id)
     {
+        $this->requireUser();
+
         $response_repository = $this->container['repository.response'];
         $response = $response_repository->findById((int) $request->request->get('responseId'));
 
@@ -70,6 +75,8 @@ class SurveysController extends Controller
 
     public function createAction(Request $request)
     {
+        $this->requireUser();
+
         $errors = array();
         $survey = new Survey();
         $survey->setOwnerId($this->getUser()->getId());
@@ -105,7 +112,7 @@ class SurveysController extends Controller
             $survey_repository->persist($survey);
 
             $request->getSession()->getFlashBag()->add('notice', 'Sondage créé.');
-            $this->redirect('/');
+            $this->redirect('/surveys/mine');
         } else {
             return $this->render('surveys/new.html.twig', array(
                 'errors' => $errors
