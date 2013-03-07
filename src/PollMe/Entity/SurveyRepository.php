@@ -55,8 +55,15 @@ class SurveyRepository extends AbstractRepository
         if ($survey->getId() === null) {
             $this->insert($survey);
         } else {
-            $this->update($survey);
+            throw new \Exception('Not implemented');
         }
+    }
+
+    public function delete(Survey $survey)
+    {
+        $sql = 'DELETE FROM surveys WHERE id = ?';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(array($survey->getId()));
     }
 
     protected function insert(Survey $survey)

@@ -1,4 +1,8 @@
 <li class="media well">
+    {% if request.attributes.get('_user') and request.attributes.get('_user').id == survey.ownerId %}
+    <a class="close" data-dismiss="alert" href="/surveys/{{ survey.id }}/delete">&times;</a>
+    {% endif %}
+
     <div class="media-body">
         <h4 class="media-heading">{{ survey.question }}</h4>
 

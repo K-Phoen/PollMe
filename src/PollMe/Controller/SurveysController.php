@@ -3,6 +3,7 @@
 namespace PollMe\Controller;
 
 use Rock\Http\Request;
+use Rock\Http\Exception\HttpException;
 
 use PollMe\Entity\Response;
 use PollMe\Entity\Survey;
@@ -84,6 +85,27 @@ class SurveysController extends BaseController
         $response_repository->persist($response);
 
         $request->getSession()->getFlashBag()->add('info', 'A voté !');
+        $this->redirect('/');
+    }
+
+    public function deleteAction($survey_id)
+    {
+        $this->requireUser();
+
+        $survey_repository = $this->container['repository.survey'];
+        $survey = $survey_repository->findById((int) $survey_id);
+
+        if ($survey === null) {
+            throw $this->createNotFoundException('Sondage inconnu');
+        }
+
+        if ($survey->getOwnerId() !== $this->getUser()->getId()) {
+            throw new HttpException(403, 'Il n\'est possible de supprimer que ses propres sondages.');
+        }
+
+        $survey_repository->delete($survey);
+
+        $this->request->getSession()->getFlashBag()->add('info', 'Sondage supprimé.');
         $this->redirect('/');
     }
 

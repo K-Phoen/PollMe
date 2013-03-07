@@ -24,7 +24,7 @@ class Survey
         }
 
         if (isset($data['owner_id'])) {
-            $this->owner_id = $data['owner_id'];
+            $this->owner_id = (int) $data['owner_id'];
         }
 
         if (isset($data['question'])) {

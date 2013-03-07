@@ -33,11 +33,6 @@ abstract class Controller implements ContainerAware, RequestAware
         return new Response($templating->render($template, $parameters));
     }
 
-    public function getUser()
-    {
-        return $this->request->attributes->get('_user');
-    }
-
     public function redirect($url)
     {
         throw new RedirectHttpException($url);

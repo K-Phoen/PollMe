@@ -3,6 +3,8 @@
 {% block content %}
 <div class="container">
     <div class="span7 offset2">
+        {% include "flashes.html.twig" %}
+
         <ul class="media-list">
             {% for survey in surveys %}
                 {% include "surveys/survey.html.twig" %}
