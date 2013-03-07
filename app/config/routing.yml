@@ -42,3 +42,12 @@ survey_vote:
   pattern:    /surveys/:survey_id/vote
   controller: \PollMe\Controller\SurveysController::voteAction
   method:     POST
+
+change_password:
+  pattern:    /account/password
+  controller: \PollMe\Controller\UserAccountController::updatePasswordAction
+
+submit_change_password:
+  pattern:    /account/password
+  controller: \PollMe\Controller\UserAccountController::doUpdatePasswordAction
+  method:     POST

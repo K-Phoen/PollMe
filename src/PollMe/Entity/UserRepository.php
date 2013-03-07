@@ -62,6 +62,14 @@ class UserRepository
         $user->setId($this->pdo->lastInsertId());
     }
 
+    protected function update(User $user)
+    {
+        $sql = 'UPDATE users SET nickname = ?, password = ? WHERE id = ?';
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->execute(array($user->getNickname(), $user->getPassword(), $user->getId()));
+    }
+
     protected function hydrateUser($data)
     {
         return new User($data);

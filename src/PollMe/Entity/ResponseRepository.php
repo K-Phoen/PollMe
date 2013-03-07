@@ -32,7 +32,7 @@ class ResponseRepository extends AbstractRepository
         }
     }
 
-    protected function insert(response $response)
+    protected function insert(Response $response)
     {
         $sql = 'INSERT INTO responses (survey_id, title, count) VALUES (?, ?, ?)';
         $stmt = $this->pdo->prepare($sql);
@@ -41,7 +41,7 @@ class ResponseRepository extends AbstractRepository
         $response->setId($this->pdo->lastInsertId());
     }
 
-    protected function update(response $response)
+    protected function update(Response $response)
     {
         $sql = 'UPDATE responses SET survey_id = ?, title = ?, count = ? WHERE id = ?';
         $stmt = $this->pdo->prepare($sql);
