@@ -17,7 +17,7 @@
 
             <form class="span1" method="post" action="/surveys/{{ survey.id }}/vote">
                 <input type="hidden" name="responseId" value="{{ response.id}}" />
-                <input {% if not request.attributes.get('_user') %}disabled{% endif %} type="submit" style="margin-left:5px" class="span1 btn btn-small btn-danger" value="Voter" />
+                <input type="submit" style="margin-left:5px" class="span1 btn btn-small btn-danger" value="Voter" />
             </form>
         </div>
         {% endfor %}

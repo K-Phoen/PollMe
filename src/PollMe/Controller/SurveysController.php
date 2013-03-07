@@ -72,8 +72,6 @@ class SurveysController extends BaseController
 
     public function voteAction(Request $request, $survey_id)
     {
-        $this->requireUser();
-
         $response_repository = $this->container['repository.response'];
         $response = $response_repository->findById((int) $request->request->get('responseId'));
 
