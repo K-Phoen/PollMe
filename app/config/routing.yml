@@ -1,7 +1,3 @@
-hello:
-  pattern:    /
-  controller: \PollMe\Controller\FooController::indexAction
-
 login:
   pattern:    /login
   controller: \PollMe\Controller\LoginController::loginAction
@@ -19,6 +15,10 @@ submit_register:
   pattern:    /register
   controller: \PollMe\Controller\RegistrationController::submitRegisterAction
   method:     POST
+
+home:
+  pattern:    /
+  controller: \PollMe\Controller\SurveysController::listAction
 
 surveys_new:
   pattern:    /surveys/new

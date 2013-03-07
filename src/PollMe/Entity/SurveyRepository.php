@@ -23,6 +23,15 @@ class SurveyRepository extends AbstractRepository
         return $this->hydrateSingle($stmt);
     }
 
+    public function findAll()
+    {
+        $sql = 'SELECT id, owner_id, question FROM surveys';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+
+        return $this->hydrateList($stmt);
+    }
+
     public function findBySearch($search)
     {
         $sql = 'SELECT id, owner_id, question FROM surveys WHERE question LIKE ?';

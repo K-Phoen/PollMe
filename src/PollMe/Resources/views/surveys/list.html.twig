@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+<div class="container">
+    <div class="span7 offset2">
+        <ul class="media-list">
+            <li class="media well">
+                Super site de sondage avec plein de réponses possibles \o/
+            </li>
+            {% for survey in surveys %}
+                {% include "surveys/survey.html.twig" %}
+            {% else %}
+                <li class="media well">Aucun sondage n'a été créé pour le moment ...</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

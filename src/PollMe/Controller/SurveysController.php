@@ -17,6 +17,20 @@ class SurveysController extends BaseController
         return $this->render('surveys/new.html.twig');
     }
 
+    public function listAction()
+    {
+        $survey_repository = $this->container['repository.survey'];
+        $surveys = $survey_repository->findAll();
+
+        foreach ($surveys as $survey) {
+            $survey->computePercentages();
+        }
+
+        return $this->render('surveys/list.html.twig', array(
+            'surveys' => $surveys,
+        ));
+    }
+
     public function listMineAction()
     {
         $this->requireUser();
