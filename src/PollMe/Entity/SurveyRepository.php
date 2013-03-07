@@ -61,6 +61,8 @@ class SurveyRepository extends AbstractRepository
 
     public function delete(Survey $survey)
     {
+        $this->response_repository->deleteForSurvey($survey);
+
         $sql = 'DELETE FROM surveys WHERE id = ?';
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(array($survey->getId()));

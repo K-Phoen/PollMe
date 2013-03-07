@@ -32,6 +32,13 @@ class ResponseRepository extends AbstractRepository
         }
     }
 
+    public function deleteForSurvey(Survey $survey)
+    {
+        $sql = 'DELETE FROM responses WHERE survey_id = ?';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(array($survey->getId()));
+    }
+
     protected function insert(Response $response)
     {
         $sql = 'INSERT INTO responses (survey_id, title, count) VALUES (?, ?, ?)';
