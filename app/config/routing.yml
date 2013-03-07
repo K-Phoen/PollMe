@@ -43,6 +43,11 @@ survey_vote:
   controller: \PollMe\Controller\SurveysController::voteAction
   method:     POST
 
+survey_comment:
+  pattern:    /surveys/:survey_id/comment
+  controller: \PollMe\Controller\SurveysController::commentAction
+  method:     POST
+
 survey_delete:
   pattern:    /surveys/:survey_id/delete
   controller: \PollMe\Controller\SurveysController::deleteAction

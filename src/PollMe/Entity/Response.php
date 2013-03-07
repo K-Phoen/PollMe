@@ -24,7 +24,7 @@ class Response
         }
 
         if (isset($data['survey_id'])) {
-            $this->survey_id = $data['survey_id'];
+            $this->survey_id = (int) $data['survey_id'];
         }
 
         if (isset($data['title'])) {
@@ -32,14 +32,14 @@ class Response
         }
 
         if (isset($data['count'])) {
-            $this->count = $data['count'];
+            $this->count = (int) $data['count'];
         }
     }
 
     public function setId($id)
     {
         if ($this->id !== null) {
-            throw new \RuntimeException('This survey already has an ID');
+            throw new \RuntimeException('This response already has an ID');
         }
 
         $this->id = (int) $id;

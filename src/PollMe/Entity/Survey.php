@@ -10,6 +10,7 @@ class Survey
     protected $question;
 
     protected $responses = array();
+    protected $comments = array();
 
 
     public function __construct(array $data = array())
@@ -74,14 +75,14 @@ class Survey
         return $this->question;
     }
 
-    public function addResponse($response)
+    public function addResponse(Response $response)
     {
         $this->responses[] = $response;
         $response->setSurveyId($this->getId());
         return $this;
     }
 
-    public function setResponses($responses)
+    public function setResponses(array $responses)
     {
         foreach ($responses as $response) {
             $this->addResponse($response);
@@ -92,6 +93,26 @@ class Survey
     public function getResponses()
     {
         return $this->responses;
+    }
+
+    public function addComment(Comment $comment)
+    {
+        $this->comments[] = $comment;
+        $comment->setSurveyId($this->getId());
+        return $this;
+    }
+
+    public function setComments(array $comments)
+    {
+        foreach ($comments as $comment) {
+            $this->addComment($comment);
+        }
+        return $this;
+    }
+
+    public function getComments()
+    {
+        return $this->comments;
     }
 
     public function computePercentages()

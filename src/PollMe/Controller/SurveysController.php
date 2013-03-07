@@ -5,6 +5,7 @@ namespace PollMe\Controller;
 use Rock\Http\Request;
 use Rock\Http\Exception\HttpException;
 
+use PollMe\Entity\Comment;
 use PollMe\Entity\Response;
 use PollMe\Entity\Survey;
 
@@ -84,6 +85,51 @@ class SurveysController extends BaseController
 
         $request->getSession()->getFlashBag()->add('info', 'A voté !');
         $this->redirect('/');
+    }
+
+    public function commentAction(Request $request, $survey_id)
+    {
+        $this->requireUser();
+
+        $errors = array();
+        $comment = new Comment();
+
+        $survey_repository = $this->container['repository.survey'];
+        $survey = $survey_repository->findById((int) $survey_id);
+
+        if ($survey === null) {
+            throw $this->createNotFoundException('Sondage inconnu');
+        }
+
+        try {
+            $comment_text = $this->validateComment($request->request->get('comment'));
+            $comment->setComment($comment_text);
+        } catch (\Exception $e) {
+            $errors[] = $e->getMessage();
+        }
+
+        if (count($errors) === 0) {
+            $comment->setSurveyId($survey_id);
+            $comment->setUserId($this->getUser()->getId());
+            $comment->setCreatedAt('now');
+
+            $repository = $this->container['repository.comment'];
+            $repository->persist($comment);
+
+            $request->getSession()->getFlashBag()->add('notice', 'Réaction ajoutée !');
+            $this->redirect('/');
+        } else {
+            $surveys = $survey_repository->findAll();
+
+            foreach ($surveys as $survey) {
+                $survey->computePercentages();
+            }
+
+            return $this->render('surveys/list.html.twig', array(
+                'errors'  => $errors,
+                'surveys' => $surveys,
+            ));
+        }
     }
 
     public function deleteAction($survey_id)
@@ -178,5 +224,14 @@ class SurveysController extends BaseController
         }
 
         return new Response(array('title' => $response));
+    }
+
+    protected function validateComment($comment)
+    {
+        if (empty($comment)) {
+            throw new \Exception('Un commentaire vide n\'est pas très constructif.');
+        }
+
+        return $comment;
     }
 }

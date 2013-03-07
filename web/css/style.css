@@ -1,3 +1,7 @@
 body {
   padding-top: 60px;
 }
+
+.survey h4, .survey p {
+    margin-bottom: 20px;
+}

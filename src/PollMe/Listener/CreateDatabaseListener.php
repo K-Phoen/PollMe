@@ -27,7 +27,7 @@ class CreateDatabaseListener implements EventSubscriberInterface
     public function onApplicationBoot()
     {
         $tables = $this->tablesExist(array(
-            'users', 'surveys', 'responses'
+            'users', 'surveys', 'responses', 'comments'
         ));
 
         foreach ($tables as $table => $exist) {
@@ -86,6 +86,20 @@ CREATE TABLE responses(
     survey_id   INT          NOT NULL REFERENCES surveys(id),
     title       VARCHAR(255) NOT NULL,
     count       INT          NOT NULL DEFAULT 0
+);
+EOF;
+        $this->pdo->exec($sql);
+    }
+
+    protected function createComments()
+    {
+        $sql = <<<EOF
+CREATE TABLE comments(
+    id          INT         AUTO_INCREMENT PRIMARY KEY,
+    survey_id   INT         NOT NULL REFERENCES surveys(id),
+    user_id     INT         NOT NULL REFERENCES users(id),
+    comment     TEXT        NOT NULL,
+    created_at  DATETIME    NOT NULL
 );
 EOF;
         $this->pdo->exec($sql);

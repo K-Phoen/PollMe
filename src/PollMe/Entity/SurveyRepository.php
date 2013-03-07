@@ -6,12 +6,14 @@ namespace PollMe\Entity;
 class SurveyRepository extends AbstractRepository
 {
     protected $response_repository;
+    protected $comment_repository;
 
 
-    public function __construct(\Pdo $pdo, ResponseRepository $response_repository)
+    public function __construct(\Pdo $pdo, ResponseRepository $response_repository, CommentRepository $comment_repository)
     {
         parent::__construct($pdo);
         $this->response_repository = $response_repository;
+        $this->comment_repository = $comment_repository;
     }
 
     public function findById($id)
@@ -62,6 +64,7 @@ class SurveyRepository extends AbstractRepository
     public function delete(Survey $survey)
     {
         $this->response_repository->deleteForSurvey($survey);
+        $this->comment_repository->deleteForSurvey($survey);
 
         $sql = 'DELETE FROM surveys WHERE id = ?';
         $stmt = $this->pdo->prepare($sql);
@@ -85,6 +88,7 @@ class SurveyRepository extends AbstractRepository
     {
         $survey = new Survey($data);
         $survey->setResponses($this->response_repository->findBySurveyId($survey->getId()));
+        $survey->setComments($this->comment_repository->findBySurveyId($survey->getId()));
         return $survey;
     }
 }

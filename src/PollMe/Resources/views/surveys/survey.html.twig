@@ -3,7 +3,7 @@
     <a class="close" data-dismiss="alert" href="/surveys/{{ survey.id }}/delete">&times;</a>
     {% endif %}
 
-    <div class="media-body">
+    <div class="survey media-body">
         <h4 class="media-heading">{{ survey.question }}</h4>
 
         {% for response in survey.responses %}
@@ -21,5 +21,47 @@
             </form>
         </div>
         {% endfor %}
+
+        <h4 class="media-heading">Discussion</h4>
+
+        <div class="fluid-row">
+            {% for comment in survey.comments %}
+                <blockquote class="span6">
+                    <p>{{ comment.comment }}</p>
+                    <small>{{ comment.user }}, le {{ comment.createdAt|date('d/m/Y \à H:i') }}.</small>
+                </blockquote>
+            {% else %}
+                <p class="span6">Rien pour le moment !</p>
+            {% endfor %}
+        </div>
+
+        {% if request.attributes.get('_user') %}
+        <h4 class="media-heading">Réagir</h4>
+
+        <div class="fluid-row">
+            <form class="span6" method="post" action="/surveys/{{ survey.id }}/comment">
+                {% if errors is defined and request.attributes.get('survey_id') == survey.id %}
+                <div class="alert alert-error">
+                    <ul>
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                 <div class="control-group">
+                     <div class="controls">
+                        <textarea name="comment"></textarea>
+                     </div>
+                 </div>
+                 <div class="control-group">
+                     <div class="controls">
+                        <input type="submit" class="btn btn-small btn-primary" value="Envoyer" />
+                     </div>
+                 </div>
+            </form>
+        </div>
+        {% endif %}
     </div>
 </li>

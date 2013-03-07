@@ -66,4 +66,9 @@ class User
     {
         return $this->password;
     }
+
+    public function __toString()
+    {
+        return $this->nickname;
+    }
 }
