@@ -73,14 +73,22 @@ class SurveyRepository extends AbstractRepository
 
     protected function insert(Survey $survey)
     {
-        $sql = 'INSERT INTO surveys (owner_id, question) VALUES (?, ?)';
-        $stmt = $this->pdo->prepare($sql);
+        $this->pdo->beginTransaction();
 
-        $stmt->execute(array($survey->getOwnerId(), $survey->getQuestion()));
-        $survey->setId($this->pdo->lastInsertId());
+        try {
+            $sql = 'INSERT INTO surveys (owner_id, question) VALUES (?, ?)';
+            $stmt = $this->pdo->prepare($sql);
 
-        foreach ($survey->getResponses() as $response) {
-            $this->response_repository->persist($response);
+            $stmt->execute(array($survey->getOwnerId(), $survey->getQuestion()));
+            $survey->setId($this->pdo->lastInsertId());
+
+            foreach ($survey->getResponses() as $response) {
+                $this->response_repository->persist($response);
+            }
+
+            $this->pdo->commit();
+        } catch (\Exception $e) {
+            $this->pdo->rollback();
         }
     }
 
