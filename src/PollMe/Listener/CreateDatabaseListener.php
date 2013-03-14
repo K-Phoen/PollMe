@@ -26,37 +26,19 @@ class CreateDatabaseListener implements EventSubscriberInterface
 
     public function onApplicationBoot()
     {
-        $tables = $this->tablesExist(array(
+        $tables = array(
             'users', 'surveys', 'responses', 'comments'
-        ));
-
-        foreach ($tables as $table => $exist) {
-            if (!$exist) {
-                $method = 'create' . ucfirst($table);
-                $this->{$method}();
-            }
+        );
+        foreach ($tables as $table) {
+            $method = 'create' . ucfirst($table);
+            $this->{$method}();
         }
-    }
-
-    protected function tablesExist($names)
-    {
-        $results = array();
-
-        $sql = 'SELECT COUNT(1) as result FROM Information_schema.tables WHERE table_name = ?';
-        $stmt = $this->pdo->prepare($sql);
-
-        foreach ($names as $name) {
-            $stmt->execute(array($name));
-            $results[$name] = (int) $stmt->fetchColumn(0) === 1;
-        }
-
-        return $results;
     }
 
     protected function createUsers()
     {
         $sql = <<<EOF
-CREATE TABLE users(
+CREATE TABLE IF NOT EXISTS users(
     id       INT         AUTO_INCREMENT PRIMARY KEY,
     nickname VARCHAR(20) NOT NULL,
     password VARCHAR(50) NOT NULL
@@ -69,7 +51,7 @@ EOF;
     protected function createSurveys()
     {
         $sql = <<<EOF
-CREATE TABLE surveys(
+CREATE TABLE IF NOT EXISTS surveys(
     id       INT          AUTO_INCREMENT PRIMARY KEY,
     owner_id INT          NOT NULL REFERENCES users(id),
     question VARCHAR(255) NOT NULL
@@ -81,7 +63,7 @@ EOF;
     protected function createResponses()
     {
         $sql = <<<EOF
-CREATE TABLE responses(
+CREATE TABLE IF NOT EXISTS responses(
     id          INT          AUTO_INCREMENT PRIMARY KEY,
     survey_id   INT          NOT NULL REFERENCES surveys(id),
     title       VARCHAR(255) NOT NULL,
@@ -94,7 +76,7 @@ EOF;
     protected function createComments()
     {
         $sql = <<<EOF
-CREATE TABLE comments(
+CREATE TABLE IF NOT EXISTS comments(
     id          INT         AUTO_INCREMENT PRIMARY KEY,
     survey_id   INT         NOT NULL REFERENCES surveys(id),
     user_id     INT         NOT NULL REFERENCES users(id),
