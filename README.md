@@ -69,3 +69,11 @@ fonctionner le site :
 ```
 
 Un .htaccess gère la réécriture d'URL et le changement du DirectoryIndex.
+
+
+## Vagrant box
+
+La branche _vagrant_ contient la configuration de la box Vagrant utilisée pour
+le développement du projet. Peu de modifications devraient être nécessaires pour
+la réutiliser (modifier les occurences de "kevin", cloner le code du projet dans
+~/www/poll.me/)
