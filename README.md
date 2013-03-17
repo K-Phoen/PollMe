@@ -84,6 +84,7 @@ la réutiliser (modifier les occurences de "kevin", cloner le code du projet dan
 Tests
 =====
 
+
 Les tests peuvent être lancés via la commande suivante :
 
 ```bash
@@ -96,3 +97,33 @@ Pour que cela fonctionne, les vendors doivent avoir été installés en mode
 ```bash
 $ php composer.phar install --dev
 ```
+
+
+Architecture générale
+=====================
+
+
+L'architecture générale est la même que [Symfony](http://www.symfony.com).
+
+La partie "framework" du code est constituée d'un Kernel HTTP et d'un Kernel applicatif.
+Le kernel HTTP a pour unique objectif de transformer une requête en réponse.
+Le kernel applicatif, lui, décrit le coeur de l'application. On y retrouve des informations sur la gestion de la
+configuration, du cache, de l'injection de dépendance, etc.
+
+Le cycle de vie (simplifié) d'une requête serait le suivant:
+
+ 1. le serveur reçoit la requête et construit un objet la représentant ;
+ 2. cette requête est transmise au kernel applicatif ;
+ 3. ce dernier démarre : il initialise le conteneur d'injection de dépendance, les évènements et le kernel HTTP ;
+ 4. la requête est transmise au kernel HTTP ;
+ 5. l'objectif étant de transformer cette requête en réponse, il recherche un contrôleur pouvant réaliser cette tâche;
+ 6. le kernel HTTP retourne la réponse générée par le contrôleur.
+
+Bien sûr, on ignore ici la gestion du routing, du templating, de la session, de la base de données, etc.
+
+La session, le templating et l'accès à la base de données sont des services accessibles via le conteneur
+d'injection de dépendances (Pimple).
+
+La gestion du routing et la recherche du contrôleur à utiliser sont implémentés à l'aide d'événements lancés à la
+fois par le kernel applicatif et HTTP. On initialise par exemple le routing lors du boot du kernel applicatif et
+on recherche le contrôleur une fois la requête passée au kernel HTTP.
