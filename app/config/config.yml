@@ -1,0 +1,6 @@
+debug: true
+
+db.host: 'localhost'
+db.name: 'poll_me'
+db.user: 'poll_me'
+db.pass: 'poll_me'

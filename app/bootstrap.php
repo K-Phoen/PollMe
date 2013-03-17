@@ -2,6 +2,8 @@
 
 require_once 'autoload.php';
 
+use Symfony\Component\Yaml\Yaml;
+
 use Rock\Core\ApplicationKernel as BaseApplicationKernel;
 use PollMe\DependencyInjection\ApplicationContainer;
 
@@ -30,12 +32,30 @@ class ApplicationKernel extends BaseApplicationKernel
 
     protected function getContainerParameters()
     {
-        return array_merge(parent::getContainerParameters(), array(
-            'db.host' => !empty($_SERVER['dbHost']) ? $_SERVER['dbHost'] : 'localhost',
-            'db.name' => !empty($_SERVER['dbBd']) ? $_SERVER['dbBd'] : 'poll_me',
-            'db.user' => !empty($_SERVER['dbPass']) ? $_SERVER['dbPass'] :'poll_me',
-            'db.pass' => !empty($_SERVER['dbLogin']) ? $_SERVER['dbLogin'] : 'poll_me',
-        ));
+        return array_merge(parent::getContainerParameters(), $this->getConfigParameters());
+    }
+
+    protected function getConfigParameters()
+    {
+        $params = array();
+        foreach (Yaml::parse($this->getConfigDir() . '/config.yml') as $key => $value) {
+            $params[$key] = $value;
+        }
+
+        // override DB parameters
+        $map = array(
+            'dbHost'    => 'db.host',
+            'dbBd'      => 'db.name',
+            'dbLogin'   => 'db.user',
+            'dbPass'    => 'db.pass',
+        );
+        foreach (array_keys($map) as $key) {
+            if (!empty($_SERVER[$key])) {
+                $params[$map[$key]] = $_SERVER[$key];
+            }
+        }
+
+        return $params;
     }
 
     protected function registerEvents()
