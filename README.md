@@ -39,7 +39,9 @@ Par défaut, les identifiants sont les suivants :
   * utilisateur : poll_me
   * mot de passe : poll_me
 
-La configuration peut être altérer en définissant (dans le virtualhost par
+Ces valeurs sont définies dans le fichier `app/config/config.yml`.
+
+La configuration peut aussi être altérée en définissant (dans le virtualhost par
 exemple) les variables suivantes :
 
   * hôte : $_SERVER['dbHost']
@@ -77,3 +79,20 @@ La branche _vagrant_ contient la configuration de la box Vagrant utilisée pour
 le développement du projet. Peu de modifications devraient être nécessaires pour
 la réutiliser (modifier les occurences de "kevin", cloner le code du projet dans
 ~/www/poll.me/)
+
+
+Tests
+=====
+
+Les tests peuvent être lancés via la commande suivante :
+
+```bash
+./vendor/bin/phpunit
+```
+
+Pour que cela fonctionne, les vendors doivent avoir été installés en mode
+"développeur" :
+
+```bash
+$ php composer.phar install --dev
+```
