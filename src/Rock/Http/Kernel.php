@@ -66,7 +66,7 @@ class Kernel implements KernelInterface
         $response = call_user_func_array($controller, $arguments);
 
         if (!$response instanceof Response) {
-            throw new \LogicException(sprintf('The controller must return a Response instance (got %s).', get_class($response)));
+            throw new \LogicException(sprintf('The controller must return a Response instance (got %s).', is_object($response) ? 'object of type ' . get_class($response) : $response));
         }
 
         return $response;
