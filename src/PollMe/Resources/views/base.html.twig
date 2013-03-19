@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>{% block title %}Sondages{% endblock %}</title>
-  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <link rel="stylesheet" type="text/css" href="{{ request.server.get('base_dir') }}/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="{{ request.server.get('base_dir') }}/css/style.css" />
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">

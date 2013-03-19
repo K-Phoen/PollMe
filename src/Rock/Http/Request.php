@@ -33,7 +33,7 @@ class Request
         $this->attributes = new Map($attributes);
         $this->cookies = new FrozenMap($cookies);
         $this->files = new FrozenMap($files);
-        $this->server = new FrozenMap($server);
+        $this->server = new Map($server);
 
         $this->content = $content;
     }

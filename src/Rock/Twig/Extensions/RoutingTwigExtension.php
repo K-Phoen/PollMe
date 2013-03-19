@@ -4,15 +4,19 @@ namespace Rock\Twig\Extensions;
 
 use Kunststube\Router\Router;
 
+use Rock\Http\Request;
+
 
 class RoutingTwigExtension extends \Twig_Extension
 {
     protected $router;
+    protected $request;
 
 
-    public function __construct(Router $router)
+    public function __construct(Router $router, Request $request)
     {
         $this->router = $router;
+        $this->request = $request;
     }
 
     public function getFunctions()
@@ -24,7 +28,8 @@ class RoutingTwigExtension extends \Twig_Extension
 
     public function getRoute($name, array $params = array())
     {
-        return $this->router->reverseRoute($name, $params, array(
+        $baseDir = $this->request->server->get('base_dir');
+        return $baseDir . $this->router->reverseRoute($name, $params, array(
             'controller'
         ));
     }

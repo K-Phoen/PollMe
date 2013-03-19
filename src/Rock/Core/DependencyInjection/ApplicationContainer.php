@@ -9,12 +9,14 @@ use Rock\Core\Controller\ErrorController;
 use Rock\Core\Listener\ControllerContainerListener;
 use Rock\Core\Listener\ControllerRequestListener;
 use Rock\Core\Listener\ExceptionListener;
+use Rock\Core\Listener\RequestContainerListener;
 
 use Rock\Http\Controller\ControllerResolver;
 use Rock\Http\Kernel;
 
 use Rock\Twig\Extensions\RoutingTwigExtension;
 
+use Rock\Routing\Listener\RequestBasedirListener;
 use Rock\Routing\Listener\RequestListener;
 use Rock\Routing\Listener\RoutingBootListener;
 
@@ -70,7 +72,7 @@ class ApplicationContainer extends \Pimple
                 'cache' => $c['cache.directory'] . '/twig',
                 'debug' => $c['debug'],
             ));
-            $twig->addExtension(new RoutingTwigExtension($c['routing.router']));
+            $twig->addExtension(new RoutingTwigExtension($c['routing.router'], $c['request']));
 
             return $twig;
         });
@@ -83,6 +85,9 @@ class ApplicationContainer extends \Pimple
 
     protected function registerListeners()
     {
+        $this['container.request_container_listener'] = function($c) {
+            return new RequestContainerListener($c);
+        };
         $this['controller.exception_listener'] = function($c) {
             return new ExceptionListener($c['error_controller']);
         };
@@ -91,6 +96,9 @@ class ApplicationContainer extends \Pimple
         };
         $this['routing.boot_listener'] = function($c) {
             return new RoutingBootListener($c['config.directory'], $c['routing.router']);
+        };
+        $this['routing.request_basedir_listener'] = function($c) {
+            return new RequestBasedirListener();
         };
         $this['routing.request_listener'] = function($c) {
             return new RequestListener($c['routing.router']);

@@ -60,12 +60,14 @@ abstract class ApplicationKernel
 
     protected function registerEvents()
     {
+        $this->container['event.dispatcher']->addSubscriber($this->container['routing.request_basedir_listener']);
         $this->container['event.dispatcher']->addSubscriber($this->container['routing.request_listener']);
         $this->container['event.dispatcher']->addSubscriber($this->container['routing.boot_listener']);
         $this->container['event.dispatcher']->addSubscriber($this->container['session.request_listener']);
         $this->container['event.dispatcher']->addSubscriber($this->container['controller.controller_container_listener']);
         $this->container['event.dispatcher']->addSubscriber($this->container['controller.controller_request_listener']);
         $this->container['event.dispatcher']->addSubscriber($this->container['controller.exception_listener']);
+        $this->container['event.dispatcher']->addSubscriber($this->container['container.request_container_listener']);
     }
 
     protected function getHttpKernel()
