@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 
 {% block content %}
-<form method="post" action="/register" class="modal">
+<form method="POST" action="{{ route('submit_register') }}" class="modal">
   <div class="modal-header">
     <h3>Inscription</h3>
   </div>

@@ -40,7 +40,7 @@ class RoutingBootListener implements EventSubscriberInterface
             if (!method_exists($this->router, $method)) {
                 throw new \InvalidArgumentException('Unknown method '.$route['method']);
             }
-            $this->router->{$method}($route['pattern'], array_merge(array('controller' => $route['controller']), $route['defaults']));
+            $this->router->{$method}($route['pattern'], array_merge(array('controller' => $route['controller']), $route['defaults']), null, $route_name);
         }
     }
 }

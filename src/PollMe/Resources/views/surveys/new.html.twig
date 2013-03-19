@@ -12,7 +12,7 @@
 {% endmacro %}
 
 {% block content %}
-<form method="post" action="/surveys/new" class="modal">
+<form method="post" action="{{ route('surveys_create') }}" class="modal">
     <div class="modal-header">
         <h3>Création d'un sondage</h3>
     </div>

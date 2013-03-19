@@ -1,17 +1,17 @@
 {% if not request.attributes.get('_user') %}
-<form class="navbar-form pull-right" method="post" action="/login">
-  <a class="btn btn-danger" href="/register">Inscription</a>
+<form class="navbar-form pull-right" method="post" action="{{ route('login') }}">
+  <a class="btn btn-danger" href="{{ route('register') }}">Inscription</a>
   <input class="span2" placeholder="Pseudo" name="nickname" type="text" />
   <input class="span2" placeholder="Mot de passe" name="password" type="password" />
   <input class="btn" name="connexionConnexion" type="submit" value="Connexion" />
 </form>
 {% else %}
 <form class="navbar-form pull-right">
-  <a class="btn btn-success" href="/surveys/new">Nouveau sondage</a>
-  <a class="btn" href="/surveys/mine">Mes sondages</a>
-  <a class="btn" href="/account/password">Changer de mot de passe</a>
+  <a class="btn btn-success" href="{{ route('surveys_new') }}">Nouveau sondage</a>
+  <a class="btn" href="{{ route('surveys_list_mine') }}">Mes sondages</a>
+  <a class="btn" href="{{ route('change_password') }}">Changer de mot de passe</a>
 
-  <a href="/logout" class="btn btn-danger" >Déconnexion</a>
+  <a href="{{ route('logout') }}" class="btn btn-danger" >Déconnexion</a>
   <span class="btn disabled">{{ request.attributes.get('_user').nickname }}</span>
 </form>
 {% endif %}

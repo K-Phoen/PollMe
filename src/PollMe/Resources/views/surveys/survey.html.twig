@@ -1,6 +1,6 @@
 <li class="media well">
     {% if request.attributes.get('_user') and request.attributes.get('_user').id == survey.ownerId %}
-    <a class="close" data-dismiss="alert" href="/surveys/{{ survey.id }}/delete">&times;</a>
+    <a class="close" data-dismiss="alert" href="{{ route('survey_delete', {'survey_id': survey.id}) }}">&times;</a>
     {% endif %}
 
     <div class="survey media-body">
@@ -15,7 +15,7 @@
             <span class="span1">({{ response.percentage }}%)</span>
 
 
-            <form class="span1" method="post" action="/surveys/{{ survey.id }}/vote">
+            <form class="span1" method="post" action="{{ route('survey_vote', {'survey_id': survey.id}) }}">
                 <input type="hidden" name="responseId" value="{{ response.id}}" />
                 <input type="submit" style="margin-left:5px" class="span1 btn btn-small btn-danger" value="Voter" />
             </form>
@@ -39,7 +39,7 @@
         <h4 class="media-heading">Réagir</h4>
 
         <div class="fluid-row">
-            <form class="span6" method="post" action="/surveys/{{ survey.id }}/comment">
+            <form class="span6" method="post" action="{{ route('survey_comment', {'survey_id': survey.id}) }}">
                 {% if errors is defined and request.attributes.get('survey_id') == survey.id %}
                 <div class="alert alert-error">
                     <ul>

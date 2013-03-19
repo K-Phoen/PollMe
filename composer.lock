@@ -8,12 +8,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/K-Phoen/Kunststube-Router.git",
-                "reference": "77b14847b4840bdfbef7d4a65e4a58a9600b26af"
+                "reference": "6334f5928dca720816df9b57319e35a09a48a404"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/K-Phoen/Kunststube-Router/zipball/77b14847b4840bdfbef7d4a65e4a58a9600b26af",
-                "reference": "77b14847b4840bdfbef7d4a65e4a58a9600b26af",
+                "url": "https://api.github.com/repos/K-Phoen/Kunststube-Router/zipball/6334f5928dca720816df9b57319e35a09a48a404",
+                "reference": "6334f5928dca720816df9b57319e35a09a48a404",
                 "shasum": ""
             },
             "require": {
@@ -41,7 +41,7 @@
             "support": {
                 "source": "https://github.com/K-Phoen/Kunststube-Router/tree/master"
             },
-            "time": "2013-02-24 10:47:30"
+            "time": "2013-03-19 16:55:14"
         },
         {
             "name": "pimple/pimple",

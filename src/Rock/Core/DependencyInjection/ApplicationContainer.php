@@ -13,6 +13,8 @@ use Rock\Core\Listener\ExceptionListener;
 use Rock\Http\Controller\ControllerResolver;
 use Rock\Http\Kernel;
 
+use Rock\Twig\Extensions\RoutingTwigExtension;
+
 use Rock\Routing\Listener\RequestListener;
 use Rock\Routing\Listener\RoutingBootListener;
 
@@ -60,11 +62,17 @@ class ApplicationContainer extends \Pimple
         $this['templating.loader'] = function($c) {
             return new \Twig_Loader_Filesystem($c['templates.directory']);
         };
+        $this['templating.extension.routing'] = function($c) {
+            return new \Twig_Loader_Filesystem($c['templates.directory']);
+        };
         $this['templating'] = $this->share(function($c) {
-            return new \Twig_Environment($c['templating.loader'], array(
+            $twig = new \Twig_Environment($c['templating.loader'], array(
                 'cache' => $c['cache.directory'] . '/twig',
                 'debug' => $c['debug'],
             ));
+            $twig->addExtension(new RoutingTwigExtension($c['routing.router']));
+
+            return $twig;
         });
 
         // error management
