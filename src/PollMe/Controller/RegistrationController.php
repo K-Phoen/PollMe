@@ -27,6 +27,13 @@ class RegistrationController extends BaseController
         }
 
         try {
+            $mail = $this->validateMail($request->request->get('signUpMail'));
+            $user->setMail($mail);
+        } catch (\Exception $e) {
+            $errors[] = $e->getMessage();
+        }
+
+        try {
             $password = $this->validatePasswords($request->request->get('signUpPassword'), $request->request->get('signUpPassword2'));
             $user->setPassword($password);
         } catch (\Exception $e) {
@@ -70,6 +77,24 @@ class RegistrationController extends BaseController
         }
 
         return $username;
+    }
+
+    protected function validateMail($mail)
+    {
+        if (empty($mail)) {
+            throw new \Exception('Le mail est obligatoire.');
+        }
+
+        if (($mail = filter_var($mail, FILTER_VALIDATE_EMAIL)) === false) {
+            throw new \Exception('Le mail est invalide.');
+        }
+
+        $user_repository = $this->container['repository.user'];
+        if (!$user_repository->isMailAvailable($mail)) {
+            throw new \Exception('Ce mail est déjà utilisé.');
+        }
+
+        return $mail;
     }
 
     protected function validatePasswords($password, $confirmation)

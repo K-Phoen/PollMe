@@ -26,6 +26,12 @@
       </div>
     </div>
     <div class="control-group">
+      <label class="control-label" for="signUpMail">Mail</label>
+      <div class="controls">
+        <input type="text" name="signUpMail" placeholder="Mail" value="{{ request.request.get('signUpMail') }}" />
+      </div>
+    </div>
+    <div class="control-group">
       <label class="control-label" for="signUpPassword">Mot de passe</label>
       <div class="controls">
         <input type="password" name="signUpPassword" placeholder="Mot de passe" />

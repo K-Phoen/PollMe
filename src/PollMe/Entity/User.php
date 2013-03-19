@@ -7,6 +7,7 @@ class User
 {
     protected $id;
     protected $nickname;
+    protected $mail;
     protected $password;
 
 
@@ -23,6 +24,10 @@ class User
 
         if (isset($data['nickname'])) {
             $this->nickname = $data['nickname'];
+        }
+
+        if (isset($data['mail'])) {
+            $this->mail = $data['mail'];
         }
 
         if (isset($data['password'])) {
@@ -54,6 +59,17 @@ class User
     public function getNickname()
     {
         return $this->nickname;
+    }
+
+    public function setMail($mail)
+    {
+        $this->mail = $mail;
+        return $this;
+    }
+
+    public function getMail()
+    {
+        return $this->mail;
     }
 
     public function setPassword($password)

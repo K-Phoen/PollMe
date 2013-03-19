@@ -41,11 +41,12 @@ class CreateDatabaseListener implements EventSubscriberInterface
 CREATE TABLE IF NOT EXISTS users(
     id       INT         AUTO_INCREMENT PRIMARY KEY,
     nickname VARCHAR(20) NOT NULL,
+    mail     VARCHAR(50) NOT NULL,
     password VARCHAR(50) NOT NULL
 );
 EOF;
         $this->pdo->exec($sql);
-        $this->pdo->exec(sprintf('INSERT INTO users (nickname, password) VALUES ("%s", "%s")', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3')); // test:test
+        $this->pdo->exec(sprintf('INSERT INTO users (nickname, mail, password) VALUES ("%s", "%s", "%s")', 'test', 'toto@toto.fr', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3')); // test:test
     }
 
     protected function createSurveys()

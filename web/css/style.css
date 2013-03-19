@@ -5,3 +5,7 @@ body {
 .survey h4, .survey p {
     margin-bottom: 20px;
 }
+
+.comment img {
+    margin-right: 15px;
+}

@@ -11,6 +11,7 @@ use PollMe\Entity\CommentRepository;
 use PollMe\Entity\ResponseRepository;
 use PollMe\Entity\SurveyRepository;
 use PollMe\Entity\UserRepository;
+use PollMe\Twig\Extensions\GravatarExtension;
 
 
 class ApplicationContainer extends BaseContainer
@@ -42,6 +43,11 @@ class ApplicationContainer extends BaseContainer
         });
         $this['repository.survey'] = $this->share(function($c) {
             return new SurveyRepository($c['db.pdo'], $c['repository.response'], $c['repository.comment']);
+        });
+
+        $this['templating'] = $this->extend('templating', function($twig, $c) {
+            $twig->addExtension(new GravatarExtension());
+            return $twig;
         });
     }
 

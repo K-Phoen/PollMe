@@ -26,8 +26,9 @@
 
         <div class="fluid-row">
             {% for comment in survey.comments %}
-                <blockquote class="span6">
-                    <p>{{ comment.comment }}</p>
+                <blockquote class="span6 comment">
+                    <img src="{{ comment.user.mail|gravatar }}" class="img-polaroid pull-right">
+                    <p>{{ comment.comment|nl2br }}</p>
                     <small>{{ comment.user }}, le {{ comment.createdAt|date('d/m/Y \à H:i') }}.</small>
                 </blockquote>
             {% else %}

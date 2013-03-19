@@ -13,6 +13,15 @@ class UserRepository
         $this->pdo = $pdo;
     }
 
+    public function isMailAvailable($mail)
+    {
+        $sql = 'SELECT COUNT(1) FROM users WHERE mail = ?';
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->execute(array($mail));
+        return (int) $stmt->fetchColumn(0) === 0;
+    }
+
     public function isNicknameAvailable($nickname)
     {
         $sql = 'SELECT COUNT(1) FROM users WHERE nickname = ?';
@@ -24,7 +33,7 @@ class UserRepository
 
     public function findByCredentials($nickname, $password)
     {
-        $sql = 'SELECT id, nickname, password FROM users WHERE nickname = ? AND password = ?';
+        $sql = 'SELECT id, nickname, mail, password FROM users WHERE nickname = ? AND password = ?';
         $stmt = $this->pdo->prepare($sql);
 
         $stmt->execute(array($nickname, sha1($password)));
@@ -35,7 +44,7 @@ class UserRepository
 
     public function findById($id)
     {
-        $sql = 'SELECT id, nickname, password FROM users WHERE id = ?';
+        $sql = 'SELECT id, nickname, mail, password FROM users WHERE id = ?';
         $stmt = $this->pdo->prepare($sql);
 
         $stmt->execute(array($id));
@@ -55,19 +64,19 @@ class UserRepository
 
     protected function insert(User $user)
     {
-        $sql = 'INSERT INTO users (nickname, password) VALUES (?, ?)';
+        $sql = 'INSERT INTO users (nickname, mail, password) VALUES (?, ?, ?)';
         $stmt = $this->pdo->prepare($sql);
 
-        $stmt->execute(array($user->getNickname(), $user->getPassword()));
+        $stmt->execute(array($user->getNickname(), $user->getMail(), $user->getPassword()));
         $user->setId($this->pdo->lastInsertId());
     }
 
     protected function update(User $user)
     {
-        $sql = 'UPDATE users SET nickname = ?, password = ? WHERE id = ?';
+        $sql = 'UPDATE users SET nickname = ?, mail = ?, password = ? WHERE id = ?';
         $stmt = $this->pdo->prepare($sql);
 
-        $stmt->execute(array($user->getNickname(), $user->getPassword(), $user->getId()));
+        $stmt->execute(array($user->getNickname(), $user->getMail(), $user->getPassword(), $user->getId()));
     }
 
     protected function hydrateUser($data)
