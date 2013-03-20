@@ -4,6 +4,7 @@ namespace Rock\Core\Controller;
 
 use Rock\Http\Exception\NotFoundHttpException;
 use Rock\Http\Exception\RedirectHttpException;
+use Rock\Http\Request;
 use Rock\Http\Response;
 
 
@@ -13,7 +14,7 @@ abstract class Controller implements ContainerAware, RequestAware
     protected $request;
 
 
-    public function setRequest($request)
+    public function setRequest(Request $request)
     {
         $this->request = $request;
     }

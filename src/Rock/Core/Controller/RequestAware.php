@@ -2,8 +2,10 @@
 
 namespace Rock\Core\Controller;
 
+use Rock\Http\Request;
+
 
 interface RequestAware
 {
-    public function setRequest($container);
+    public function setRequest(Request $request);
 }
