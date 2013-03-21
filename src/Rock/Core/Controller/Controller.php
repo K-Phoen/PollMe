@@ -24,7 +24,7 @@ abstract class Controller implements ContainerAware, RequestAware
         $this->container = $container;
     }
 
-    public function render($template, array $parameters = array())
+    protected function render($template, array $parameters = array())
     {
         $templating = $this->container['templating'];
         $parameters = array_merge(array(
@@ -34,13 +34,21 @@ abstract class Controller implements ContainerAware, RequestAware
         return new Response($templating->render($template, $parameters));
     }
 
-    public function redirect($url)
+    protected function redirect($url)
     {
         throw new RedirectHttpException($url);
     }
 
-    public function createNotFoundException($message = null)
+    protected function createNotFoundException($message = null)
     {
         return new NotFoundHttpException($message);
+    }
+
+    protected function buildUrl($name, array $parameters = array())
+    {
+        $baseDir = $this->request->server->get('base_dir');
+        return $baseDir . $this->container['routing.router']->reverseRoute($name, $parameters, array(
+            'controller'
+        ));
     }
 }

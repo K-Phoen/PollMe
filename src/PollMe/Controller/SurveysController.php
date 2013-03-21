@@ -55,7 +55,7 @@ class SurveysController extends BaseController
 
         if (empty($search)) {
             $request->getSession()->getFlashBag()->add('error', 'Une recherche vide ? Mais pourquoi ?!');
-            $this->redirect('/');
+            $this->redirect($this->buildUrl('home'));
         }
 
         $survey_repository = $this->container['repository.survey'];
@@ -84,7 +84,7 @@ class SurveysController extends BaseController
         $response_repository->persist($response);
 
         $request->getSession()->getFlashBag()->add('info', 'A voté !');
-        $this->redirect('/');
+        $this->redirect($this->buildUrl('home'));
     }
 
     public function commentAction(Request $request, $survey_id)
@@ -117,7 +117,7 @@ class SurveysController extends BaseController
             $repository->persist($comment);
 
             $request->getSession()->getFlashBag()->add('notice', 'Réaction ajoutée !');
-            $this->redirect('/');
+            $this->redirect($this->buildUrl('home'));
         } else {
             $surveys = $survey_repository->findAll();
 
@@ -150,7 +150,7 @@ class SurveysController extends BaseController
         $survey_repository->delete($survey);
 
         $this->request->getSession()->getFlashBag()->add('info', 'Sondage supprimé.');
-        $this->redirect('/');
+        $this->redirect($this->buildUrl('home'));
     }
 
     public function createAction(Request $request)
@@ -192,7 +192,7 @@ class SurveysController extends BaseController
             $survey_repository->persist($survey);
 
             $request->getSession()->getFlashBag()->add('notice', 'Sondage créé.');
-            $this->redirect('/surveys/mine');
+            $this->redirect($this->buildUrl('surveys_list_mine'));
         } else {
             return $this->render('surveys/new.html.twig', array(
                 'errors' => $errors

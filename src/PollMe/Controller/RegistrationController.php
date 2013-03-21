@@ -48,7 +48,7 @@ class RegistrationController extends BaseController
             $request->getSession()->set('user_id', $user->getId());
 
             $request->getSession()->getFlashBag()->add('notice', 'Vous êtes désormais inscrit !');
-            $this->redirect('/');
+            $this->redirect($this->buildUrl('home'));
         } else {
             return $this->render('register.html.twig', array(
                 'errors' => $errors

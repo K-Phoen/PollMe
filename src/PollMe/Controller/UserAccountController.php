@@ -33,7 +33,7 @@ class UserAccountController extends BaseController
             $user_repository->persist($user);
 
             $request->getSession()->getFlashBag()->add('notice', 'Mot de passe modifié !');
-            $this->redirect('/');
+            $this->redirect($this->buildUrl('home'));
         } else {
             return $this->render('update_password.html.twig', array(
                 'errors' => $errors

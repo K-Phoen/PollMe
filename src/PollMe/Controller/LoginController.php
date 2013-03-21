@@ -14,14 +14,14 @@ class LoginController extends BaseController
 
         if ($user === null) {
             $request->getSession()->getFlashBag()->add('error', 'Identifiants incorrects ...');
-            $this->redirect('/');
+            $this->redirect($this->buildUrl('home'));
         }
 
         $request->attributes->set('_user', $user);
         $request->getSession()->set('user_id', $user->getId());
 
         $request->getSession()->getFlashBag()->add('notice', 'Connexion réussie !');
-        $this->redirect('/');
+        $this->redirect($this->buildUrl('home'));
     }
 
     public function logoutAction(Request $request)
@@ -30,6 +30,6 @@ class LoginController extends BaseController
         $request->getSession()->set('user_id', null);
 
         $request->getSession()->getFlashBag()->add('notice', 'Vous êtes maintenant déconnecté.');
-        $this->redirect('/');
+        $this->redirect($this->buildUrl('home'));
     }
 }
