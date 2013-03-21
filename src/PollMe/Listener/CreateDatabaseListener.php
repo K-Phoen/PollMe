@@ -46,7 +46,6 @@ CREATE TABLE IF NOT EXISTS users(
 );
 EOF;
         $this->pdo->exec($sql);
-        $this->pdo->exec(sprintf('INSERT INTO users (nickname, mail, password) VALUES ("%s", "%s", "%s")', 'test', 'toto@toto.fr', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3')); // test:test
     }
 
     protected function createSurveys()
