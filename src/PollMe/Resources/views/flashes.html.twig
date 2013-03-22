@@ -1,15 +1,15 @@
 {% for flashMessage in request.session.flashbag.get('notice') %}
-<div class="alert alert-notice">{{ flashMessage }}</div>
+<div class="alert alert-notice">{{ flashMessage }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
 {% endfor %}
 
 {% for flashMessage in request.session.flashbag.get('info') %}
-<div class="alert alert-info">{{ flashMessage }}</div>
+<div class="alert alert-info">{{ flashMessage }}}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
 {% endfor %}
 
 {% for flashMessage in request.session.flashbag.get('success') %}
-<div class="alert alert-success">{{ flashMessage }}</div>
+<div class="alert alert-success">{{ flashMessage }}}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
 {% endfor %}
 
 {% for flashMessage in request.session.flashbag.get('error') %}
-<div class="alert alert-error">{{ flashMessage }}</div>
+<div class="alert alert-error">{{ flashMessage }}}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
 {% endfor %}
