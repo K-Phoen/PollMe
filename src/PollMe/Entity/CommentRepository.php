@@ -16,7 +16,7 @@ class CommentRepository extends AbstractRepository
 
     public function findBySurveyId($id)
     {
-        $sql = 'SELECT id, survey_id, user_id, comment, created_at FROM comments WHERE survey_id = ?';
+        $sql = 'SELECT id, survey_id, user_id, comment, created_at FROM comments WHERE survey_id = ? ORDER BY created_at ASC';
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(array($id));
 
