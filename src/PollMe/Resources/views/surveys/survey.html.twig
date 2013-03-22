@@ -1,6 +1,6 @@
 <li class="media well">
     {% if request.attributes.get('_user') and request.attributes.get('_user').id == survey.ownerId %}
-    <a class="close" data-dismiss="alert" href="{{ route('survey_delete', {'survey_id': survey.id}) }}">&times;</a>
+    <a class="close" rel="tooltip" data-toggle="tooltip" title="Supprimer le sondage" data-dismiss="alert" href="{{ route('survey_delete', {'survey_id': survey.id}) }}">&times;</a>
     {% endif %}
 
     <div class="survey media-body">
