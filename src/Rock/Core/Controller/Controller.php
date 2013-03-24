@@ -44,10 +44,17 @@ abstract class Controller implements ContainerAware, RequestAware
         return new NotFoundHttpException($message);
     }
 
-    protected function buildUrl($name, array $parameters = array())
+    protected function buildUrl($name, array $parameters = array(), $absolute = true)
     {
-        $baseDir = $this->request->server->get('base_dir');
-        return $baseDir . $this->container['routing.router']->reverseRoute($name, $parameters, array(
+        $url = '';
+
+        if ($absolute) {
+            $url = $this->request->server->get('HTTP_HOST', '');
+            $url = !empty($url) ? sprintf('http://%s', $url) : '';
+        }
+
+        $url .= $this->request->server->get('base_dir');
+        return $url . $this->container['routing.router']->reverseRoute($name, $parameters, array(
             'controller'
         ));
     }
