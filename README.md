@@ -7,6 +7,8 @@ licence informatique à l'université d'Aix-Marseille.
 Le [sujet](http://pageperso.lif.univ-mrs.fr/~bertrand.estellon/index.php?n2=35)
 du projet est disponible sur le site de Mr. Estellon, qui enseigne la matière.
 
+** Note ** : une démo est hébergée [ici](http://pollme.kevingomez.fr/)
+
 
 Installation
 ============
@@ -27,6 +29,19 @@ Les commandes suivantes permettent de les installer :
 ```bash
 $ wget http://getcomposer.org/composer.phar
 $ php composer.phar install
+```
+
+**Note** : les archives *.phar* n'étant pas exécutables sur les ordinateurs de
+la fac, le dossier `vendors` sera joint dans l'archive rendue.
+
+
+## Cache
+
+Le dossier contenant le cache doit exister et être accessible en écriture :
+
+```bash
+$ mkdir app/cache
+$ chmod 777 -R app/cache
 ```
 
 
